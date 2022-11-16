@@ -1,5 +1,5 @@
 # Mamono-Sweeper-Solver
-A solver for the game Mamono Sweeper
+A solver for the game Mamono Sweeper made using Python
 
 References:
-http://www.hojamaka.com/game/mamono_sweeper/html5/en.html
+http://www.hojamaka.com/game/mamosui_list.html
