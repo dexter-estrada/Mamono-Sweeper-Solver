@@ -18,7 +18,7 @@ class MamonoSweeper:
         # Level up
         self.next = [7, 20, 50, 82]
         # Monster Experience Gain
-        self.exp_gain = [1, 2, 4, ]
+        self.exp_gain = [1, 2, 4, 10, 100]
         # Damage taken
         #mon_dmg = [1, 2, 3, 4, 10]
 
@@ -28,8 +28,8 @@ class MamonoSweeper:
         self.monster_val = [[' ' for y in range(self.board_size)] for x in range(self.board_size)]
         # User set flags
         self.flags = []
-        # Selected flags
-        self.vis = []
+        # Uncovered tiles
+        self.visible = []
 
 
     # Prints the Mamono Sweeper board
@@ -117,6 +117,35 @@ class MamonoSweeper:
                     self.numbers[row][col] = self.numbers[row][col] - self.numbers[row+1][col+1]
 
 
+    # Recursivly uncovers all adjacent 0s on the board
+    def clear_zeros(self, row, col):
+        if [row, col] not in self.visible:
+            # Mark tile as visited
+            self.visible.append([row, col])
+
+            # If tile is 0
+            if self.numbers[row][col] == 0:
+                # Display it to the user
+                self.monster_val[row][col] = self.numbers[row][col]
+
+                # Recursivly calls neighboring tiles
+                if row > 0:
+                    self.clear_zeros(row-1, col)
+                if row < self.row_size-1:
+                    self.clear_zeros(row+1, col)
+                if col > 0:
+                    self.clear_zeros(row, col-1)
+                if col < self.col_size-1:
+                    self.clear_zeros(row, col+1)    
+                if row > 0 and col > 0:
+                    self.clear_zeros(row-1, col-1)
+                if row > 0 and col < self.col_size-1:
+                    self.clear_zeros(row-1, col+1)
+                if row < self.row_size-1 and col > 0:
+                    self.clear_zeros(row+1, col-1)
+                if row < self.row_size-1 and col < self.col_size-1:
+                    self.clear_zeros(row+1, col+1)  
+
     # Returns the neighbors of a given [r, c] as a list of [r, c]
     def neighbors(self, r, c):
         nList = []
@@ -134,7 +163,11 @@ class MamonoSweeper:
 
         return nList
 
-
+    # Function to display the instructions
+    def instructions():
+        print("Instructions:")
+        print("1. Enter row and column number to select a cell, Example \"2 3\"")
+        print("2. In order to flag a monster, enter a number after row and column numbers, Example \"2 3 4\"")
 
     def input(self, inp):
 
