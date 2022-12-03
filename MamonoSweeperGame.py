@@ -3,7 +3,7 @@ import random   # For generating game
 class MamonoSweeper:
     def __init__(self):
         # Grid size
-        self.row_size = 16
+        self.row_size = 8
         self.col_size = 16
         # Grid size
         self.board_size = 16
@@ -23,9 +23,9 @@ class MamonoSweeper:
         #mon_dmg = [1, 2, 3, 4, 10]
 
         # The monster values of the grid
-        self.numbers = [[0 for y in range(self.board_size)] for x in range(self.board_size)]
+        self.numbers = [[0 for y in range(self.col_size)] for x in range(self.row_size)]
         # Values known to the player
-        self.monster_val = [[' ' for y in range(self.board_size)] for x in range(self.board_size)]
+        self.monster_val = [[' ' for y in range(self.col_size)] for x in range(self.row_size)]
         # User set flags
         self.flags = []
         # Uncovered tiles
@@ -39,7 +39,7 @@ class MamonoSweeper:
         print("\t\t\tMamono Sweeper")
 
         st = "   "
-        for i in range(self.row_size):
+        for i in range(self.col_size):
             st = st + "     " + str(chr(i + 65))
         print(st)   
     
@@ -57,7 +57,7 @@ class MamonoSweeper:
             
             st = "  " + str(chr(r + 65)) + "  "
             for col in range(self.col_size):
-                st = st + "|  " + str(self.monster_val[r][col]) + "  "
+                st = st + "|  " + str(self.monster_val[r-1][col]) + "  "
             print(st + "|") 
     
             st = "     "

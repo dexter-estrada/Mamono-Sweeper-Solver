@@ -4,9 +4,11 @@ from MamonoSolver import MamonoSolver
 
 def main():
     mamonoGameInstance = MamonoSweeper()
-    mamonoSolverInstance = MamonoSolver(mamonoGameInstance)
+    #mamonoSolverInstance = MamonoSolver(mamonoGameInstance)
 
-    mamonoSolverInstance.printBoards()
+    #mamonoSolverInstance.printBoards()
+    mamonoGameInstance.print_board()
+    #mamonoGameInstance.print_solution()
 
 
 if __name__ == "__main__":
