@@ -34,6 +34,8 @@ class MamonoSweeper:
 
         # Tracks if game is currently being played
         self.is_playing = False
+        # Tracks if the player won
+        self.player_won = False
 
         self.setup()
 
@@ -235,6 +237,7 @@ class MamonoSweeper:
             elif self.numbers[row][col] < 0:    # If tile contains a monster
                 # Do battle calculation
                 self.battle_calculation(row, col)
+                self.check_win()
 
 
     # Returns the neighbors of a given [r, c] as a list of [r, c]
@@ -262,7 +265,8 @@ class MamonoSweeper:
 
         if self.hp < 1:             # Player dies and game over
             self.is_playing = False
-            print("You died")
+            #print("You died")
+            self.player_won = False
         else:                       # Player lives and gains xp. xp gain calculation: 2^(mon's level)
             self.exp += 2**( -(self.numbers[row][col] + 1))
             while self.exp >= self.next_lvl[self.lvl - 1]:  # while exp is less than the level gain threshold
@@ -275,8 +279,14 @@ class MamonoSweeper:
         print("1. Enter row and column number to select a cell, Example \"2 3\"")
         print("2. In order to flag a monster, enter a number after row and column numbers, Example \"2 3 4\"")
 
+    # Checks if all elements of monster_num is 0
     def check_win(self):
-        pass
+        flag = True
+        for x in self.monster_num[x]:
+            if self.monster_num[x] > 0:
+                flag = False
+                continue
+        self.check_win = flag
         #if len(self.visible) ==
 
     def input(self, inp):
@@ -348,6 +358,7 @@ class MamonoSweeper:
         self.set_values()
 
         self.is_playing = True
+        self.player_won = False
 
     """
     def main(self):
@@ -442,3 +453,8 @@ if __name__ == "__main__":
         user_input = input("Enter row number followed by space and column number. To flag a tile, enter the level number as the third input: ")
         # Does action in game
         game.input(user_input)
+
+    if game.player_won:
+        print("You Win!")
+    else:
+        print("You Died!")
