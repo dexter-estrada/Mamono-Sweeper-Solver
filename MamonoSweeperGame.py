@@ -21,7 +21,7 @@ class MamonoSweeper:
         # Experience Points
         self.exp = 0
         # Level up
-        self.next_lvl = [7, 20, 50, 82]
+        self.next_lvl = [7, 20, 50, 82, 0]
         # Monster Experience Gain
         self.exp_gain = [1, 2, 4, 8, 16]
         # Damage taken
@@ -284,6 +284,10 @@ class MamonoSweeper:
                 self.lvl += 1
             # Subtracting 1 from monster_num_alive to track remaining monsters
             self.monster_num_alive[(-self.numbers[row][col]) - 1] -= 1
+
+    # Function to plant flag on a square
+    def add_flag(self, row, col):
+        pass
 
     # Function to display the instructions
     def instructions(self):
