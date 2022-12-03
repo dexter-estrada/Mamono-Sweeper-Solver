@@ -206,7 +206,58 @@ class MamonoSweeper:
         #if len(self.visible) ==
 
     def input(self, inp):
-        pass
+        user_input = inp.split()
+
+        # Standard input
+        if len(user_input) == 2:
+            # Sanitizing input
+            try:
+                test = list(map(int, user_input))
+            except ValueError:
+                print("Integer not found")
+                self.instructions()
+
+            # Get row and column numbers
+            row = test[0]-1
+            col = test[1]-1
+                
+            # Unflag the cell if already flagged
+            if [row, col] in self.flags:
+                self.flags.remove([row, col])
+
+            # If landing on a monster, do battle calculation
+
+            # If landing in a safe spot
+
+            # If landing in a spot with an adjacent monster
+
+
+        # Flag input
+        elif len(user_input) == 3:
+            # Sanitizing input
+            try:
+                test = list(map(int, user_input))
+            except ValueError:
+                print("Integer not found")
+                self.instructions()
+            # Get row and column numbers
+            row = test[0]-1
+            col = test[1]-1
+
+
+
+        # Checking if within the board
+        if test[0] > self.board_size or test[0] < 1 or test[1] > self.board_size or test[1] < 1:
+            print("Out of bounds")
+            self.instructions()
+
+        # Get row and column numbers
+        row = test[0]-1
+        col = test[1]-1
+
+        # Check for game completion
+
+
 
     def main(self):
         # Monster setup
