@@ -272,7 +272,7 @@ class MamonoSweeper:
         print("Player level: ", self.lvl, " Monster level: ", mon_level)
         dmg = 0
         if level_difference > 0:
-            dmg = level_difference * 2      # Damage to player calculation: dmg = (player level - mon level) * 2
+            dmg = mon_level * level_difference      # Damage to player calculation: dmg = mon_level * level_difference
             self.hp -= dmg
         print("damage taken: ", dmg)
 
