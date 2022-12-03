@@ -1,31 +1,36 @@
 from MamonoSweeperGame import MamonoSweeper
+import copy
 
 class MamonoSolver:
     def __init__(self, mamonoGame):
         self.mamonoGame = mamonoGame
-        self.mamonoSolverBoard = MamonoSweeper()
+        self.mamonoSolverBoard = copy.deepcopy(mamonoGame)
         self.solve()
 
     def solve(self):
         loop = True
 
-        if all(i == ' ' for i in self.mamonoSolverBoard.monster_val):  # if board is empty
+        if all(i == [' '] * self.mamonoSolverBoard.row_size for i in self.mamonoSolverBoard.monster_val):  # if board is empty
             # start in top left corner [0,0]
-            self.mamonoGame.input("0 0")
-            self.mamonoSolverBoard.input("0 0")
+            self.mamonoGame.input("A A")
+            self.mamonoSolverBoard.input("A A")
 
         while loop:
             for r in range(self.mamonoGame.row_size):
                 for c in range(self.mamonoGame.col_size):
-                    if self.mamonoGame.lvl == self.mamonoGame.monster_val[r][c] and not self.isNeighborsCleared(r, c):  # clears neighbors of values that are equal to level
+                    if self.mamonoGame.monster_val[r][c] == ' ':
+                        continue
+                    if self.mamonoGame.lvl == int(self.mamonoGame.monster_val[r][c]) and not self.isNeighborsCleared(r, c):  # clears neighbors of values that are equal to level
                         for n in self.mamonoGame.neighbors(r, c):
                             self.mamonoGame.input(str(n[0]) + " " + str(n[1]))
                             self.mamonoSolverBoard.input(str(n[0]) + " " + str(n[1]))
                         break
+                    if int(self.mamonoSolverBoard.monster_val[r][c]) < 0:  # if solver board has negative values, update neighbors
+                        pass
+                        #  self.clearNeighbors(r, c)
             break
 
-                     #  if self.mamonoSolverBoard.monster_val[r][c] < 0:  # if solver board has negative values, change them
-                     #   pass
+
 
     def printBoards(self):
         #  print solver board
@@ -56,4 +61,6 @@ class MamonoSolver:
 
         return cleared
 
+    def clearNeighbors(self, r, c):
+        pass
 
