@@ -17,9 +17,9 @@ class MamonoSweeper:
         # Experience Points
         self.exp = 0
         # Level up
-        self.next = [7, 20, 50, 82]
+        self.next_lvl = [7, 20, 50, 82]
         # Monster Experience Gain
-        self.exp_gain = [1, 2, 4, 10, 100]
+        self.exp_gain = [1, 2, 4, 8, 16]
         # Damage taken
         #mon_dmg = [1, 2, 3, 4, 10]
 
@@ -43,7 +43,7 @@ class MamonoSweeper:
         print(Back.BLACK)
         print(Fore.WHITE)
         print("\t\t\tMamono Sweeper")
-        print(f"{'LV:' : <1}{self.lvl : <5}{'HP:' : <1}{self.hp : <5}{'EX:' : <1}{self.exp : < 5}{'NE:' : <1}{self.next[self.lvl-1] : <5}")
+        print(f"{'LV:' : <1}{self.lvl : <5}{'HP:' : <1}{self.hp : <5}{'EX:' : <1}{self.exp : < 5}{'NE:' : <1}{self.next_lvl[self.lvl-1] : <5}")
 
         st = "   "
         for i in range(self.row_size):
@@ -208,8 +208,7 @@ class MamonoSweeper:
             # Mark tile as visited
             self.visible.append([row, col])
 
-            # If tile is 0
-            if self.numbers[row][col] == 0:
+            if self.numbers[row][col] == 0:     # If tile is 0
                 # Display it to the user
                 self.monster_val[row][col] = self.numbers[row][col]
 
@@ -230,10 +229,13 @@ class MamonoSweeper:
                     self.clear_zeros(row+1, col-1)
                 if row < self.row_size-1 and col < self.col_size-1:
                     self.clear_zeros(row+1, col+1)  
-            elif self.numbers[row][col] > 0:
+            elif self.numbers[row][col] > 0:    # If tile is a hint
                 # Display it to the user
                 self.monster_val[row][col] = self.numbers[row][col]
-                
+            elif self.numbers[row][col] < 0:    # If tile contains a monster
+                # Do battle calculation
+                self.battle_calculation(row, col)
+
 
     # Returns the neighbors of a given [r, c] as a list of [r, c]
     def neighbors(self, r, c):
@@ -252,9 +254,20 @@ class MamonoSweeper:
 
         return nList
 
-    # Function to calculate
-    def battle_calculation(self):
-        pass
+    # Function to calculate damage taken by player
+    def battle_calculation(self, row, col):
+        level_difference = self.lvl + self.numbers[row][col]
+        dmg = level_difference * 2      # Damage to player calculation: dmg = (player level - mon level) * 2
+        self.hp -= - dmg
+
+        if self.hp < 1:             # Player dies and game over
+            self.is_playing = False
+            print("You died")
+        else:                       # Player lives and gains xp. xp gain calculation: 2^(mon's level)
+            self.exp += 2**( -(self.numbers[row][col] + 1))
+            while self.exp >= self.next_lvl[self.lvl - 1]:  # while exp is less than the level gain threshold
+                # Level up
+                self.lvl += 1
 
     # Function to display the instructions
     def instructions(self):
@@ -272,14 +285,12 @@ class MamonoSweeper:
         r = ord(user_input[0]) - 65
         c = ord(user_input[1]) - 65
 
-        # If landing in a safe spot
-        if self.numbers[r][c] == 0:
-            self.clear_zeros(r, c)
-        
-        # If landing in a spot with an adjacent monster
-        # self.monster_val[r][c] = self.numbers[r][c]
+        # If landing in a spot without a monster
+        #if self.numbers[r][c] == 0:
+        self.clear_zeros(r, c)
 
         # If landing on a monster, do battle calculation
+        #self.battle_calculation(r, c)
 
         """
         # Standard input
