@@ -10,6 +10,10 @@ class MamonoSweeper:
         self.board_size = 16
         # Number of Monsters per level
         self.monster_num = [10, 8, 6, 4, 2]
+        # Number of Monsters alive
+        self.monster_num_alive = []
+        for x in self.monster_num:
+            self.monster_num_alive.append(x)
         # Health Points
         self.hp = 10
         # Player Level
@@ -96,6 +100,8 @@ class MamonoSweeper:
             for col in range(self.col_size):
                 st = st + "|_____"
             print(st + '|')
+        print()
+        print(f"{'LV1:x' : <1}{self.monster_num_alive[0] : <5}{'LV2:x' : <1}{self.monster_num_alive[1] : <5}{'LV3:x' : <1}{self.monster_num_alive[2] : <5}{'LV4:x' : <1}{self.monster_num_alive[3] : <5}{'LV5:x' : <1}{self.monster_num_alive[4] : <5}")
         print()
 
     # Print the solution
@@ -274,6 +280,8 @@ class MamonoSweeper:
             while self.exp >= self.next_lvl[self.lvl - 1]:  # while exp is less than the level gain threshold
                 # Level up
                 self.lvl += 1
+            # Subtracting 1 from monster_num_alive to track remaining monsters
+            self.monster_num_alive[(-self.numbers[row][col]) - 1] -= 1
 
     # Function to display the instructions
     def instructions(self):
@@ -284,7 +292,7 @@ class MamonoSweeper:
     # Checks if all elements of monster_num is 0
     def check_win(self):
         flag = True
-        for x in self.monster_num:
+        for x in self.monster_num_alive:
             if x > 0:
                 flag = False
                 continue
@@ -358,7 +366,11 @@ class MamonoSweeper:
 
         # Setting hints
         self.set_values()
-
+        
+        # Resetting endgame tracker
+        self.monster_num_alive = []
+        for x in self.monster_num:
+            self.monster_num_alive.append(x)
         self.is_playing = True
         self.player_won = False
 
