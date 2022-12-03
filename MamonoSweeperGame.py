@@ -1,4 +1,5 @@
 import random   # For generating game
+from colorama import Fore, Back, Style
 
 class MamonoSweeper:
     def __init__(self):
@@ -91,9 +92,16 @@ class MamonoSweeper:
             print(st + "|")
             
             st = "  " + str(chr(r + 65)) + "  "
+            print(st, end="")
             for col in range(self.col_size):
-                st = st + "|  " + str(self.numbers[r][col]) + "  "
-            print(st + "|") 
+                print("|  ", end="")
+                if self.numbers[r][col] < 0:  # if it is a monster, color it red
+                    print(Fore.RED + str(-self.numbers[r][col]), end="")
+                else:
+                    print(Fore.GREEN + str(self.numbers[r][col]), end="")
+                print(Style.RESET_ALL, end="")
+                print("  ", end="")
+            print("|")
     
             st = "     "
             for col in range(self.col_size):
@@ -109,8 +117,8 @@ class MamonoSweeper:
             mons_level = -1 * (mons + 1)  # Represents the monster's level
             while count < self.monster_num[mons]:
                 # Generating random
-                row = random.randint(0, self.row_size)
-                col = random.randint(0, self.col_size)
+                row = random.randint(0, self.row_size-1)
+                col = random.randint(0, self.col_size-1)
 
                 # Place monster
                 if self.numbers[row][col] > -1:
@@ -150,8 +158,7 @@ class MamonoSweeper:
                 if row < self.row_size-1 and col < self.col_size-1 and self.numbers[row+1][col+1] < 0:
                     self.numbers[row][col] = self.numbers[row][col] - self.numbers[row+1][col+1]
 
-
-    # Recursivly uncovers all adjacent 0s on the board
+    # Recursively uncovers all adjacent 0s on the board
     def clear_zeros(self, row, col):
         if [row, col] not in self.visible:
             # Mark tile as visited
@@ -162,7 +169,7 @@ class MamonoSweeper:
                 # Display it to the user
                 self.monster_val[row][col] = self.numbers[row][col]
 
-                # Recursivly calls neighboring tiles
+                # Recursively calls neighboring tiles
                 if row > 0:
                     self.clear_zeros(row-1, col)
                 if row < self.row_size-1:
@@ -184,8 +191,8 @@ class MamonoSweeper:
     def neighbors(self, r, c):
         nList = []
 
-        for i in range(-1,2):  # i = -1,0,1
-            for j in range(-1,2):  # i = -1,0,1
+        for i in range(-1, 2):  # i = -1,0,1
+            for j in range(-1, 2):  # i = -1,0,1
                 if i == 0 and j == 0:
                     continue
                 elif r + i < 0 or c + j < 0:
@@ -279,6 +286,7 @@ class MamonoSweeper:
         # Setting hints
         self.set_values()
 
+    """
     def main(self):
         # Monster setup
         self.set_monsters()
@@ -359,6 +367,7 @@ class MamonoSweeper:
             # If landing in a spot with an adjacent monster
 
             # Check 
-
+        
     if __name__ == "__main__":
         main()
+    """
