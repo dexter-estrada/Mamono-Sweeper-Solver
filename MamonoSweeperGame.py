@@ -31,6 +31,8 @@ class MamonoSweeper:
         # Uncovered tiles
         self.visible = []
 
+        self.setup()
+
 
     # Prints the Mamono Sweeper board
     def print_board(self):
@@ -270,6 +272,12 @@ class MamonoSweeper:
         # Check for game completion
         """
 
+    def setup(self):
+        # Monster setup
+        self.set_monsters()
+
+        # Setting hints
+        self.set_values()
 
     def main(self):
         # Monster setup
