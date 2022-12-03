@@ -3,6 +3,9 @@ import random   # For generating game
 class MamonoSweeper:
     def __init__(self):
         # Grid size
+        self.row_size = 16
+        self.col_size = 16
+        # Grid size
         self.board_size = 16
         # Number of Monsters per level
         self.monster_num = [10, 8, 6, 4, 2]
@@ -25,6 +28,8 @@ class MamonoSweeper:
         self.monster_val = [[' ' for y in range(self.board_size)] for x in range(self.board_size)]
         # User set flags
         self.flags = []
+        # Selected flags
+        self.vis = []
 
 
     # Prints the Mamono Sweeper board
@@ -62,12 +67,81 @@ class MamonoSweeper:
     
         print()
 
+    # Places the monsters on the field
+    def set_monsters(self):
+        for mons in range(len(self.monster_num)):
+            # Tracks number of monsters of a level
+            count = 0
+            mons_level = -1 * (mons + 1) # Represents the monster's level
+            while count < self.monster_num[mons]:
+                # Generating random
+                row = random.randint(0, self.board_size)
+                col = random.randint(0, self.board_size)
+
+                # Place monster
+                if self.numbers[row][col] > -1:
+                    count = count + 1
+                    self.numbers[row][col] = mons_level
+
+    # Sets the apparent value of adjacent monsters
+    def set_values(self):
+        for row in range(self.row_size):
+            for col in range(self.col_size):
+                # Skips tiles with monsters
+                if self.numbers[row][col] < 0:
+                    continue
+
+                # Check up  
+                if row > 0 and self.numbers[row-1][col] < 0:
+                    self.numbers[row][col] = self.numbers[row][col] - self.numbers[row-1][col]
+                # Check down    
+                if row < self.row_size-1  and self.numbers[row+1][col] < 0:
+                    self.numbers[row][col] = self.numbers[row][col] - self.numbers[row+1][col]
+                # Check left
+                if col > 0 and self.numbers[row][col-1] < 0:
+                    self.numbers[row][col] = self.numbers[row][col] - self.numbers[row][col-1]
+                # Check right
+                if col < self.col_size-1 and self.numbers[row][col+1] < 0:
+                    self.numbers[row][col] = self.numbers[row][col] - self.numbers[row][col+1]
+                # Check top-left    
+                if row > 0 and col > 0 and self.numbers[row-1][col-1] < 0:
+                    self.numbers[row][col] = self.numbers[row][col] - self.numbers[row-1][col-1]
+                # Check top-right
+                if row > 0 and col < self.col_size-1 and self.numbers[row-1][col+1] < 0:
+                    self.numbers[row][col] = self.numbers[row][col] - self.numbers[row-1][col+1]
+                # Check below-left  
+                if row < self.row_size-1 and col > 0 and self.numbers[row+1][col-1] < 0:
+                    self.numbers[row][col] = self.numbers[row][col] - self.numbers[row+1][col-1]
+                # Check below-right
+                if row < self.row_size-1 and col < self.col_size-1 and self.numbers[row+1][col+1] < 0:
+                    self.numbers[row][col] = self.numbers[row][col] - self.numbers[row+1][col+1]
+
+
+    # Returns the neighbors of a given [r, c] as a list of [r, c]
+    def neighbors(self, r, c):
+        nList = []
+
+        for i in range(-1,2):  # i = -1,0,1
+            for j in range(-1,2):  # i = -1,0,1
+                if i == 0 and j == 0:
+                    continue
+                elif r + i < 0 or c + j < 0:
+                    continue
+                elif r + i >= self.row_size or c + j >= self.col_size:
+                    continue
+                else:
+                    nList.append([r+i, c+j])
+
+        return nList
+
+
+
     def input(self, inp):
 
 
     def main(self):
         # Monster setup
-        set_monsters()
+        self.set_monsters()
 
         # Setting hints
         set_values()
