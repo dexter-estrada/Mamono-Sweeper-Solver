@@ -17,14 +17,14 @@ class MamonoSolver:
         while loop:
             for r in range(self.mamonoGame.row_size):
                 for c in range(self.mamonoGame.col_size):
-                    if self.mamonoGame.level == self.mamonoGame.monster_val[r][c] and not self.isNeighborsCleared(r, c):  # clears neighbors of values that are equal to level
+                    if self.mamonoGame.lvl == self.mamonoGame.monster_val[r][c] and not self.isNeighborsCleared(r, c):  # clears neighbors of values that are equal to level
                         for n in self.mamonoGame.neighbors(r, c):
                             self.mamonoGame.input(str(n[0]) + " " + str(n[1]))
                             self.mamonoSolverBoard.input(str(n[0]) + " " + str(n[1]))
                         break
 
-                    if self.mamonoSolverBoard[r][c] < 0:  # if solver board has negative values, change them
-                        pass
+                     #  if self.mamonoSolverBoard.monster_val[r][c] < 0:  # if solver board has negative values, change them
+                     #   pass
 
     def printBoards(self):
         #  print solver board
