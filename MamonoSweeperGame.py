@@ -37,8 +37,8 @@ class MamonoSweeper:
 
     # Prints the Mamono Sweeper board
     def print_board(self):
-
-        print()
+        print(Back.BLACK)
+        print(Fore.WHITE)
         print("\t\t\tMamono Sweeper")
 
         st = "   "
@@ -57,11 +57,34 @@ class MamonoSweeper:
             for col in range(self.col_size):
                 st = st + "|     "
             print(st + "|")
-            
+
             st = "  " + str(chr(r + 65)) + "  "
+            print(st, end="")
             for col in range(self.col_size):
-                st = st + "|  " + str(self.monster_val[r][col]) + "  "
-            print(st + "|") 
+                print("|  ", end="")
+                if self.monster_val[r][col] == ' ':
+                    print(" ", end="")
+                elif int(self.monster_val[r][col]) < 0:  # if it is a monster, color it red
+                    if int(self.monster_val[r][col]) == -1:
+                        color = Fore.CYAN
+                    elif int(self.monster_val[r][col]) == -2:
+                        color = Fore.RED
+                    elif int(self.monster_val[r][col]) == -3:
+                        color = Fore.MAGENTA
+                    elif int(self.monster_val[r][col]) == -4:
+                        color = Fore.YELLOW
+                    elif int(self.monster_val[r][col]) == -5:
+                        color = Fore.LIGHTGREEN_EX
+                    else:
+                        print("ERROR: INCORRECT ENEMY NUMBER")
+                        color = Fore.RED
+                    print(color + str(-int(self.monster_val[r][col])), end="")
+                else:
+                    print(Fore.LIGHTWHITE_EX + str(int(self.monster_val[r][col])), end="")
+                print(Fore.WHITE, end="")
+                print(Back.BLACK, end="")
+                print("  ", end="")
+            print("|")
     
             st = "     "
             for col in range(self.col_size):
