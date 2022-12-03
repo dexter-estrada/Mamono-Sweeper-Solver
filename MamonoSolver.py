@@ -14,11 +14,11 @@ class MamonoSolver:
             self.mamonoGame.input("0 0")
             self.mamonoSolverBoard.input("0 0")
 
-        while(loop):
+        while loop:
             for r in range(self.mamonoGame.row_size):
                 for c in range(self.mamonoGame.col_size):
                     if self.mamonoGame.level == self.mamonoGame.mine_values[r][c] and not self.isNeighborsCleared(r, c):  # clears neighbors of values that are equal to level
-                        for n in mamonoGame.neighbors(r, c):
+                        for n in self.mamonoGame.neighbors(r, c):
                             self.mamonoGame.input(str(n[0]) + " " + str(n[1]))
                             self.mamonoSolverBoard.input(str(n[0]) + " " + str(n[1]))
                         break
@@ -26,11 +26,25 @@ class MamonoSolver:
                     if self.mamonoSolverBoard[r][c] < 0:  # if solver board has negative values, change them
                         pass
 
+    def printBoards(self):
+        #  print solver board
+        print("\n===========================================================================")
+        print("  ================================ GameBoard ================================")
+        print("\n===========================================================================")
+
+        self.mamonoGame.print_board()
+
+        print("\n===========================================================================")
+        print("  =============================== SolverBoard ===============================")
+        print("\n===========================================================================")
+
+        self.mamonoSolverBoard.print_board()
+
     def isNeighborsCleared(self, r, c):
         cleared = True
 
-        for n in mamonoSolverBoard.neighbors(r, c):
-            if mamonoSolverBoard.mine_values[n[0]][n[1]] == " ":
+        for n in self.mamonoSolverBoard.neighbors(r, c):
+            if self.mamonoSolverBoard.mine_values[n[0]][n[1]] == " ":
                 return False
 
         return cleared
