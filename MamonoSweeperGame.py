@@ -40,7 +40,7 @@ class MamonoSweeper:
 
         st = "   "
         for i in range(self.row_size):
-            st = st + "     " + str(i + 1)
+            st = st + "     " + str(chr(i + 65))
         print(st)   
     
         for r in range(self.col_size):
@@ -55,7 +55,7 @@ class MamonoSweeper:
                 st = st + "|     "
             print(st + "|")
             
-            st = "  " + str(r + 1) + "  "
+            st = "  " + str(chr(r + 65)) + "  "
             for col in range(self.col_size):
                 st = st + "|  " + str(self.monster_val[r][col]) + "  "
             print(st + "|") 
@@ -73,7 +73,7 @@ class MamonoSweeper:
 
         st = "   "
         for i in range(self.row_size):
-            st = st + "     " + str(i + 1)
+            st = st + "     " + str(chr(i + 65))
         print(st)   
     
         for r in range(self.col_size):
@@ -88,7 +88,7 @@ class MamonoSweeper:
                 st = st + "|     "
             print(st + "|")
             
-            st = "  " + str(r + 1) + "  "
+            st = "  " + str(chr(r + 65)) + "  "
             for col in range(self.col_size):
                 st = st + "|  " + str(self.numbers[r][col]) + "  "
             print(st + "|") 
@@ -104,7 +104,7 @@ class MamonoSweeper:
         for mons in range(len(self.monster_num)):
             # Tracks number of monsters of a level
             count = 0
-            mons_level = -1 * (mons + 1) # Represents the monster's level
+            mons_level = -1 * (mons + 1)  # Represents the monster's level
             while count < self.monster_num[mons]:
                 # Generating random
                 row = random.randint(0, self.row_size)
