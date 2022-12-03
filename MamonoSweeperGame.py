@@ -71,7 +71,6 @@ class MamonoSweeper:
                 if self.monster_val[r][col] == ' ':
                     print(" ", end="")
                 elif int(self.monster_val[r][col]) < 0:  # if it is a monster, color it red
-                    #print("This monster is: ", int(self.monster_val[r][col]))
                     if int(self.monster_val[r][col]) == -1:
                         color = Fore.CYAN
                     elif int(self.monster_val[r][col]) == -2:
@@ -289,7 +288,7 @@ class MamonoSweeper:
             if x > 0:
                 flag = False
                 continue
-        self.check_win = flag
+        self.player_won = flag
         #if len(self.visible) ==
 
     def input(self, inp):
