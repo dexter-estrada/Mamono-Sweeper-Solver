@@ -1,6 +1,32 @@
 import random   # For generating game
 
 class MamonoSweeper:
+    # Grid size
+    board_size = 16
+    # Number of Monsters per level
+    monster_num = [10, 8, 6, 4, 2]
+
+    # Health Points
+    hp = 10
+    # Player Level
+    lvl = 1
+    # Experience Points
+    exp = 0
+    # Level up
+    next = [7, 20, 50, 82]
+    # Monster Experience Gain
+    exp_gain = [1, 2, 4, ]
+    # Damage taken
+    #mon_dmg = [1, 2, 3, 4, 10]
+
+    # The monster values of the grid
+    numbers = [[0 for y in range(board_size)] for x in range(board_size)]
+    # Values known to the player
+    monster_val = [[' ' for y in range(board_size)] for x in range(board_size)]
+    # User set flags
+    flags = []
+
+
     # Prints the Mamono Sweeper board
     def print_board():
         global monster_values
@@ -38,33 +64,10 @@ class MamonoSweeper:
     
         print()
 
+    def input(self, inp):
+        
 
     def main():
-        # Grid size
-        board_size = 16
-        # Number of Monsters per level
-        monster_num = [10, 8, 6, 4, 2]
-
-        # Health Points
-        hp = 10
-        # Player Level
-        lvl = 1
-        # Experience Points
-        exp = 0
-        # Level up
-        next = [7, 20, 50, 82]
-        # Monster Experience Gain
-        exp_gain = [1, 2, 4, ]
-        # Damage taken
-        #mon_dmg = [1, 2, 3, 4, 10]
-
-        # The monster values of the grid
-        numbers = [[0 for y in range(board_size)] for x in range(board_size)]
-        # Values known to the player
-        monster_val = [[' ' for y in range(board_size)] for x in range(board_size)]
-        # User set flags
-        flags = []
-
         # Monster setup
         set_monsters()
 
@@ -145,5 +148,5 @@ class MamonoSweeper:
 
             # Check 
 
-        if __name__ == "__main__":
-            main()
+    if __name__ == "__main__":
+        main()
