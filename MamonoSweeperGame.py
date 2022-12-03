@@ -71,7 +71,7 @@ class MamonoSweeper:
                 if self.monster_val[r][col] == ' ':
                     print(" ", end="")
                 elif int(self.monster_val[r][col]) < 0:  # if it is a monster, color it red
-                    print("This monster is: ", int(self.monster_val[r][col]))
+                    #print("This monster is: ", int(self.monster_val[r][col]))
                     if int(self.monster_val[r][col]) == -1:
                         color = Fore.CYAN
                     elif int(self.monster_val[r][col]) == -2:
@@ -239,6 +239,8 @@ class MamonoSweeper:
                 # Do battle calculation
                 self.battle_calculation(row, col)
                 self.check_win()
+                # Display it to the user
+                self.monster_val[row][col] = self.numbers[row][col]
 
 
     # Returns the neighbors of a given [r, c] as a list of [r, c]
