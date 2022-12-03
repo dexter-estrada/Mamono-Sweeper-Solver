@@ -39,29 +39,29 @@ class MamonoSweeper:
         print("\t\t\tMamono Sweeper")
 
         st = "   "
-        for i in range(self.board_size):
+        for i in range(self.row_size):
             st = st + "     " + str(i + 1)
         print(st)   
     
-        for r in range(self.board_size):
+        for r in range(self.col_size):
             st = "     "
             if r == 0:
-                for col in range(self.board_size):
+                for col in range(self.col_size):
                     st = st + "______" 
                 print(st)
     
             st = "     "
-            for col in range(self.board_size):
+            for col in range(self.col_size):
                 st = st + "|     "
             print(st + "|")
             
             st = "  " + str(r + 1) + "  "
-            for col in range(self.board_size):
+            for col in range(self.col_size):
                 st = st + "|  " + str(self.monster_val[r][col]) + "  "
             print(st + "|") 
     
             st = "     "
-            for col in range(self.board_size):
+            for col in range(self.col_size):
                 st = st + "|_____"
             print(st + '|')
     
@@ -75,8 +75,8 @@ class MamonoSweeper:
             mons_level = -1 * (mons + 1) # Represents the monster's level
             while count < self.monster_num[mons]:
                 # Generating random
-                row = random.randint(0, self.board_size)
-                col = random.randint(0, self.board_size)
+                row = random.randint(0, self.row_size)
+                col = random.randint(0, self.col_size)
 
                 # Place monster
                 if self.numbers[row][col] > -1:
