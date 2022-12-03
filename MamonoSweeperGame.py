@@ -72,6 +72,7 @@ class MamonoSweeper:
     # Print the solution
     def print_solution(self):
         print(Back.BLACK)
+        print(Fore.WHITE)
         print("\t\t\tMamono Sweeper")
 
         st = "   "
@@ -96,12 +97,25 @@ class MamonoSweeper:
             for col in range(self.col_size):
                 print("|  ", end="")
                 if self.numbers[r][col] < 0:  # if it is a monster, color it red
-                    print(Fore.RED + str(-self.numbers[r][col]), end="")
+                    if self.numbers[r][col] == -1:
+                        color = Fore.CYAN
+                    elif self.numbers[r][col] == -2:
+                        color = Fore.RED
+                    elif self.numbers[r][col] == -3:
+                        color = Fore.MAGENTA
+                    elif self.numbers[r][col] == -4:
+                        color = Fore.YELLOW
+                    elif self.numbers[r][col] == -5:
+                        color = Fore.LIGHTGREEN_EX
+                    else:
+                        print("ERROR: INCORRECT ENEMY NUMBER")
+                        color = Fore.RED
+                    print(color + str(-self.numbers[r][col]), end="")
                 elif self.numbers[r][col] == 0:
                     print(" ", end="")
                 else:
-                    print(Fore.GREEN + str(self.numbers[r][col]), end="")
-                print(Fore.RESET, end="")
+                    print(Fore.LIGHTWHITE_EX + str(self.numbers[r][col]), end="")
+                print(Fore.WHITE, end="")
                 print(Back.BLACK, end="")
                 print("  ", end="")
             print("|")
