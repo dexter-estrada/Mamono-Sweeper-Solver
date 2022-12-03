@@ -414,6 +414,12 @@ class MamonoSweeper:
 
             # Check 
         
-    if __name__ == "__main__":
-        main()
     """
+if __name__ == "__main__":
+    game = MamonoSweeper()
+    # Display instructions
+    game.instructions()
+    while game.is_playing:
+        game.print_board()
+        # User input
+        user_input = input("Enter row number followed by space and column number. To flag a tile, enter the level number as the third input: ")
