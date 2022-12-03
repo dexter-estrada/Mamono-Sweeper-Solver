@@ -1,5 +1,5 @@
 import random   # For generating game
-from colorama import Fore, Back, Style
+from colorama import Fore, Back, Style, init
 
 class MamonoSweeper:
     def __init__(self):
@@ -71,7 +71,7 @@ class MamonoSweeper:
 
     # Print the solution
     def print_solution(self):
-        print()
+        print(Back.BLACK)
         print("\t\t\tMamono Sweeper")
 
         st = "   "
@@ -90,16 +90,19 @@ class MamonoSweeper:
             for col in range(self.col_size):
                 st = st + "|     "
             print(st + "|")
-            
+
             st = "  " + str(chr(r + 65)) + "  "
             print(st, end="")
             for col in range(self.col_size):
                 print("|  ", end="")
                 if self.numbers[r][col] < 0:  # if it is a monster, color it red
                     print(Fore.RED + str(-self.numbers[r][col]), end="")
+                elif self.numbers[r][col] == 0:
+                    print(" ", end="")
                 else:
                     print(Fore.GREEN + str(self.numbers[r][col]), end="")
-                print(Style.RESET_ALL, end="")
+                print(Fore.RESET, end="")
+                print(Back.BLACK, end="")
                 print("  ", end="")
             print("|")
     
