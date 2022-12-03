@@ -32,6 +32,9 @@ class MamonoSweeper:
         # Uncovered tiles
         self.visible = []
 
+        # Tracks if game is currently being played
+        self.is_playing = False
+
         self.setup()
 
 
@@ -40,6 +43,7 @@ class MamonoSweeper:
         print(Back.BLACK)
         print(Fore.WHITE)
         print("\t\t\tMamono Sweeper")
+        print(f"{'LV:' : <1}{self.lvl : <5}{'HP:' : <1}{self.hp : <5}{'EX:' : <1}{self.exp : < 5}{'NE:' : <1}{self.next[self.lvl-1] : <5}")
 
         st = "   "
         for i in range(self.row_size):
@@ -260,7 +264,7 @@ class MamonoSweeper:
         r = ord(user_input[0]) - 65
         c = ord(user_input[1]) - 65
 
-        if self.monster_val[r][c] == 0:
+        if self.monster_val[r][c] == ' ':
             self.clear_zeros(r, c)
 
         # self.monster_val[r][c] = self.numbers[r][c]
@@ -325,6 +329,8 @@ class MamonoSweeper:
 
         # Setting hints
         self.set_values()
+
+        self.is_playing = True
 
     """
     def main(self):
