@@ -208,6 +208,21 @@ class MamonoSweeper:
     def input(self, inp):
         user_input = inp.split()
 
+        r = ord(user_input[0]) - 65
+        c = ord(user_input[1]) - 65
+
+        if self.monster_val[r][c] == 0:
+            self.clear_zeros(r, c)
+
+        # self.monster_val[r][c] = self.numbers[r][c]
+
+        # If landing on a monster, do battle calculation
+
+        # If landing in a safe spot
+
+        # If landing in a spot with an adjacent monster
+
+        """
         # Standard input
         if len(user_input) == 2:
             # Sanitizing input
@@ -220,16 +235,13 @@ class MamonoSweeper:
             # Get row and column numbers
             row = test[0]-1
             col = test[1]-1
-                
+
+
             # Unflag the cell if already flagged
             if [row, col] in self.flags:
                 self.flags.remove([row, col])
 
-            # If landing on a monster, do battle calculation
 
-            # If landing in a safe spot
-
-            # If landing in a spot with an adjacent monster
 
 
         # Flag input
@@ -247,7 +259,7 @@ class MamonoSweeper:
 
 
         # Checking if within the board
-        if test[0] > self.board_size or test[0] < 1 or test[1] > self.board_size or test[1] < 1:
+        if test[0] > self.board_size or test[0] < 0 or test[1] > self.board_size or test[1] < 0:
             print("Out of bounds")
             self.instructions()
 
@@ -256,7 +268,7 @@ class MamonoSweeper:
         col = test[1]-1
 
         # Check for game completion
-
+        """
 
 
     def main(self):
