@@ -9,7 +9,7 @@ class MamonoSolver:
     def solve(self):
         loop = True
 
-        if all(i == ' ' for i in self.mamonoSolverBoard.mine_values):  # if board is empty
+        if all(i == ' ' for i in self.mamonoSolverBoard.monster_val):  # if board is empty
             # start in top left corner [0,0]
             self.mamonoGame.input("0 0")
             self.mamonoSolverBoard.input("0 0")
@@ -17,7 +17,7 @@ class MamonoSolver:
         while loop:
             for r in range(self.mamonoGame.row_size):
                 for c in range(self.mamonoGame.col_size):
-                    if self.mamonoGame.level == self.mamonoGame.mine_values[r][c] and not self.isNeighborsCleared(r, c):  # clears neighbors of values that are equal to level
+                    if self.mamonoGame.level == self.mamonoGame.monster_val[r][c] and not self.isNeighborsCleared(r, c):  # clears neighbors of values that are equal to level
                         for n in self.mamonoGame.neighbors(r, c):
                             self.mamonoGame.input(str(n[0]) + " " + str(n[1]))
                             self.mamonoSolverBoard.input(str(n[0]) + " " + str(n[1]))
@@ -44,7 +44,7 @@ class MamonoSolver:
         cleared = True
 
         for n in self.mamonoSolverBoard.neighbors(r, c):
-            if self.mamonoSolverBoard.mine_values[n[0]][n[1]] == " ":
+            if self.mamonoSolverBoard.monster_val[n[0]][n[1]] == " ":
                 return False
 
         return cleared
