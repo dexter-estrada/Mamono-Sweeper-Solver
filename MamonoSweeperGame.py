@@ -268,8 +268,10 @@ class MamonoSweeper:
     # Function to calculate damage taken by player
     def battle_calculation(self, row, col):
         level_difference = self.lvl + self.numbers[row][col]
+        print("Player level: ", self.lvl, " Monster level: ", self.numbers[row][col])
         dmg = level_difference * 2      # Damage to player calculation: dmg = (player level - mon level) * 2
-        self.hp -= - dmg
+        self.hp -= -dmg
+        print("damage take: ", dmg)
 
         if self.hp < 1:             # Player dies and game over
             self.is_playing = False
