@@ -1,4 +1,4 @@
-from Mamono-Sweeper-Game import MamonoSweeper
+from MamonoSweeperGame import MamonoSweeper
 
 class MamonoSolver:
     def __init__(self, mamonoGame):
