@@ -64,7 +64,39 @@ class MamonoSweeper:
             for col in range(self.col_size):
                 st = st + "|_____"
             print(st + '|')
+        print()
+
+    # Print the solution
+    def print_solution(self):
+        print()
+        print("\t\t\tMamono Sweeper")
+
+        st = "   "
+        for i in range(self.row_size):
+            st = st + "     " + str(i + 1)
+        print(st)   
     
+        for r in range(self.col_size):
+            st = "     "
+            if r == 0:
+                for col in range(self.col_size):
+                    st = st + "______" 
+                print(st)
+    
+            st = "     "
+            for col in range(self.col_size):
+                st = st + "|     "
+            print(st + "|")
+            
+            st = "  " + str(r + 1) + "  "
+            for col in range(self.col_size):
+                st = st + "|  " + str(self.numbers[r][col]) + "  "
+            print(st + "|") 
+    
+            st = "     "
+            for col in range(self.col_size):
+                st = st + "|_____"
+            print(st + '|')
         print()
 
     # Places the monsters on the field
@@ -164,30 +196,34 @@ class MamonoSweeper:
         return nList
 
     # Function to display the instructions
-    def instructions():
+    def instructions(self):
         print("Instructions:")
         print("1. Enter row and column number to select a cell, Example \"2 3\"")
         print("2. In order to flag a monster, enter a number after row and column numbers, Example \"2 3 4\"")
 
-    def input(self, inp):
+    def check_win(self):
+        pass
+        #if len(self.visible) ==
 
+    def input(self, inp):
+        pass
 
     def main(self):
         # Monster setup
         self.set_monsters()
 
         # Setting hints
-        set_values()
+        self.set_values()
 
         # Display instructions
-        instructions()
+        self.instructions()
 
         # bool to check if game is finished
         game_finished = False
 
         # Game Loop
         while not game_finished:
-            print_board()
+            self.print_board()
 
             # User input
             user_input = input("Enter row number followed by space and column number. To flag a tile, enter the level number as the third input").split()
@@ -200,7 +236,7 @@ class MamonoSweeper:
                     test = list(map(int, user_input))
                 except ValueError:
                     print("Integer not found")
-                    instructions()
+                    self.instructions()
                     continue
 
             # Flag input
@@ -211,13 +247,13 @@ class MamonoSweeper:
                     test = list(map(int, user_input))
                 except ValueError:
                     print("Integer not found")
-                    instructions()
+                    self.instructions()
                     continue
 
                 # Checking if within the board
                 if test[0] > self.board_size or test[0] < 1 or test[1] > self.board_size or test[1] < 1:
                     print("Out of bounds")
-                    instructions()
+                    self.instructions()
                     continue
 
                 # Get row and column numbers
@@ -226,7 +262,7 @@ class MamonoSweeper:
 
             else:
                 print("Unexpected input!")
-                instructions()
+                self.instructions()
                 continue
 
 
@@ -234,7 +270,7 @@ class MamonoSweeper:
             # Checking if within the board
             if test[0] > self.board_size or test[0] < 1 or test[1] > self.board_size or test[1] < 1:
                 print("Out of bounds")
-                instructions()
+                self.instructions()
                 continue
 
             # Get row and column numbers
