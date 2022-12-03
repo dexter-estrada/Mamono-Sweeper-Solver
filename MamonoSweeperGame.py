@@ -230,6 +230,10 @@ class MamonoSweeper:
                     self.clear_zeros(row+1, col-1)
                 if row < self.row_size-1 and col < self.col_size-1:
                     self.clear_zeros(row+1, col+1)  
+            elif self.numbers[row][col] > 0:
+                # Display it to the user
+                self.monster_val[row][col] = self.numbers[row][col]
+                
 
     # Returns the neighbors of a given [r, c] as a list of [r, c]
     def neighbors(self, r, c):
@@ -248,6 +252,10 @@ class MamonoSweeper:
 
         return nList
 
+    # Function to calculate
+    def battle_calculation(self):
+        pass
+
     # Function to display the instructions
     def instructions(self):
         print("Instructions:")
@@ -264,16 +272,14 @@ class MamonoSweeper:
         r = ord(user_input[0]) - 65
         c = ord(user_input[1]) - 65
 
-        if self.monster_val[r][c] == ' ':
+        # If landing in a safe spot
+        if self.numbers[r][c] == 0:
             self.clear_zeros(r, c)
-
+        
+        # If landing in a spot with an adjacent monster
         # self.monster_val[r][c] = self.numbers[r][c]
 
         # If landing on a monster, do battle calculation
-
-        # If landing in a safe spot
-
-        # If landing in a spot with an adjacent monster
 
         """
         # Standard input
@@ -423,3 +429,5 @@ if __name__ == "__main__":
         game.print_board()
         # User input
         user_input = input("Enter row number followed by space and column number. To flag a tile, enter the level number as the third input: ")
+        # Does action in game
+        game.input(user_input)
