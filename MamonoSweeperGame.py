@@ -31,8 +31,8 @@ class MamonoSweeper:
         self.numbers = [[0 for y in range(self.board_size)] for x in range(self.board_size)]
         # Values known to the player
         self.monster_val = [[' ' for y in range(self.board_size)] for x in range(self.board_size)]
-        # User set flags
-        self.flags = []
+        # User set flags as a dictionary. Key = (row, col): value = flag level
+        self.flags = {}
         # Uncovered tiles
         self.visible = []
 
@@ -75,6 +75,8 @@ class MamonoSweeper:
                 print("|", end="")
                 if self.monster_val[r][col] == ' ':
                     print(f"{' ': >3}", end="")
+                elif (r, col) in self.flags:
+                    print(Fore.GREEN + f"{self.monster_val[r][col]: >3}", end="")
                 elif int(self.monster_val[r][col]) < 0:  # if it is a monster, color it red
                     if int(self.monster_val[r][col]) == -1:
                         color = Fore.CYAN
@@ -242,11 +244,22 @@ class MamonoSweeper:
                 # Display it to the user
                 self.monster_val[row][col] = self.numbers[row][col]
             elif self.numbers[row][col] < 0:    # If tile contains a monster
-                # Do battle calculation
-                self.battle_calculation(row, col)
-                self.check_win()
-                # Display it to the user
-                self.monster_val[row][col] = self.numbers[row][col]
+                # Check if flag prevents user from clicking
+                if (row, col) in self.flags:
+                    if self.lvl >= self.flags[(row, col)]:
+                        # Do battle calculation
+                        self.battle_calculation(row, col)
+                        self.check_win()
+                        # Display it to the user
+                        self.monster_val[row][col] = self.numbers[row][col]
+                        # Remove flag from flags
+                        self.flags.pop((row, col))
+                else:                               # No flag found
+                    # Do battle calculation
+                    self.battle_calculation(row, col)
+                    self.check_win()
+                    # Display it to the user
+                    self.monster_val[row][col] = self.numbers[row][col]
 
 
     # Returns the neighbors of a given [r, c] as a list of [r, c]
@@ -289,9 +302,14 @@ class MamonoSweeper:
             # Subtracting 1 from monster_num_alive to track remaining monsters
             self.monster_num_alive[(-self.numbers[row][col]) - 1] -= 1
 
-    # Function to plant flag on a square
-    def add_flag(self, row, col):
-        pass
+    # Function to modify flags on a square. 
+    def modify_flag(self, row, col, flag_level):
+        if flag_level > 0:                      # Placing a flag
+            self.flags[(row, col)] = flag_level
+            self.monster_val[row][col] = 'F' + str(flag_level)
+        else:                                   # Removing a flag
+            self.flags.pop((row, col))
+            self.monster_val[row][col] = ' '
 
     # Function to display the instructions
     def instructions(self):
@@ -309,17 +327,26 @@ class MamonoSweeper:
         self.player_won = flag
         #if len(self.visible) ==
 
+    # Processes user input. Expects a string of 2 or 3 arguments
     def input(self, inp):
         user_input = inp.split()
 
         #r = ord(user_input[0]) - 65
         #c = ord(user_input[1]) - 65
-        r = int(user_input[0])
-        c = int(user_input[1])
+
+        if len(user_input) == 2:    # User clears a square
+            r = int(user_input[0])
+            c = int(user_input[1])
+            self.clear_zeros(r, c)
+
+        elif len(user_input) == 3:  # User flags a square
+            r = int(user_input[0])
+            c = int(user_input[1])
+            f = int(user_input[2])
+            self.modify_flag(r, c, f)
 
         # If landing in a spot without a monster
         #if self.numbers[r][c] == 0:
-        self.clear_zeros(r, c)
 
         # If landing on a monster, do battle calculation
         #self.battle_calculation(r, c)
