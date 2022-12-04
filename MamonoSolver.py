@@ -12,25 +12,27 @@ class MamonoSolver:
 
         if all(i == [' '] * self.mamonoSolverBoard.row_size for i in self.mamonoSolverBoard.monster_val):  # if board is empty
             # start in top left corner [0,0]
-            self.mamonoGame.input("A A")
-            self.mamonoSolverBoard.input("A A")
+            self.mamonoGame.input("0 0")
+            self.mamonoSolverBoard.input("0 0")
 
+        counter = 0
         while loop:
+            counter += 1
             for r in range(self.mamonoGame.row_size):
                 for c in range(self.mamonoGame.col_size):
                     if self.mamonoGame.monster_val[r][c] == ' ':
                         continue
-                    if self.mamonoGame.lvl == int(self.mamonoGame.monster_val[r][c]) and not self.isNeighborsCleared(r, c):  # clears neighbors of values that are equal to level
+                    elif self.mamonoGame.lvl == int(self.mamonoGame.monster_val[r][c]) and not self.isNeighborsCleared(r, c):  # clears neighbors of values that are equal to level
                         for n in self.mamonoGame.neighbors(r, c):
                             self.mamonoGame.input(str(n[0]) + " " + str(n[1]))
                             self.mamonoSolverBoard.input(str(n[0]) + " " + str(n[1]))
                         break
-                    if int(self.mamonoSolverBoard.monster_val[r][c]) < 0:  # if solver board has negative values, update neighbors
+                    elif int(self.mamonoSolverBoard.monster_val[r][c]) < 0:  # if solver board has negative values, update neighbors
                         pass
-                        #  self.clearNeighbors(r, c)
-            break
+            if counter == 30:  # temporarily run loop 30 times
+                loop = False
 
-
+        print("counter: " + str(counter))
 
     def printBoards(self):
         #  print solver board
@@ -45,22 +47,23 @@ class MamonoSolver:
         print("===========================================================================")
 
         self.mamonoSolverBoard.print_board()
-
+    """
         print("\n===========================================================================")
         print("============================== SolutionBoard ==============================")
         print("===========================================================================")
 
         self.mamonoGame.print_solution()
-
+    """
     def isNeighborsCleared(self, r, c):
-        cleared = True
-
-        for n in self.mamonoSolverBoard.neighbors(r, c):
-            if self.mamonoSolverBoard.monster_val[n[0]][n[1]] == " ":
+        for n in self.mamonoGame.neighbors(r, c):
+            if self.mamonoGame.monster_val[n[0]][n[1]] == ' ':
                 return False
 
-        return cleared
+        return True
 
     def clearNeighbors(self, r, c):
-        pass
+        for n in self.mamonoGame.neighbors(r, c):
+            if self.mamonoGame.monster_val[n[0]][n[1]] == ' ':
+                self.mamonoGame.input(str(n[0]) + " " + str(n[1]))
+                self.mamonoSolverBoard.input(str(n[0]) + " " + str(n[1]))
 
