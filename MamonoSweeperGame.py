@@ -48,12 +48,13 @@ class MamonoSweeper:
     def print_board(self):
         print(Back.BLACK)
         print(Fore.WHITE)
-        print("\t\t\tMamono Sweeper")
-        print(f"{'LV:' : <1}{self.lvl : <5}{'HP:' : <1}{self.hp : <5}{'EX:' : <1}{self.exp : < 5}{'NE:' : <1}{self.next_lvl[self.lvl-1] : <5}")
+        print(f"{'Mamono Sweeper' : ^100}")
+        print(f"{'LV:' : >1}{self.lvl : <5}{'HP:' : >1}{self.hp : <5}{'EX:' : >1}{self.exp : <5}{'NE:' : >1}{self.next_lvl[self.lvl-1] : <5}")
 
-        st = "   "
+        st = "      "
         for i in range(self.row_size):
-            st = st + "     " + str(chr(i + 65))
+            #st = st + "     " + str(chr(i + 65))
+            st = st + f"{str(i): ^6}"
         print(st)   
     
         for r in range(self.col_size):
@@ -68,12 +69,12 @@ class MamonoSweeper:
                 st = st + "|     "
             print(st + "|")
 
-            st = "  " + str(chr(r + 65)) + "  "
-            print(st, end="")
+            #st = "  " + str(chr(r + 65)) + "  "
+            print(f"{r: ^5}", end="")
             for col in range(self.col_size):
-                print("|  ", end="")
+                print("|", end="")
                 if self.monster_val[r][col] == ' ':
-                    print(" ", end="")
+                    print(f"{' ': >3}", end="")
                 elif int(self.monster_val[r][col]) < 0:  # if it is a monster, color it red
                     if int(self.monster_val[r][col]) == -1:
                         color = Fore.CYAN
@@ -88,9 +89,9 @@ class MamonoSweeper:
                     else:
                         print("ERROR: INCORRECT ENEMY NUMBER")
                         color = Fore.RED
-                    print(color + str(-int(self.monster_val[r][col])), end="")
+                    print(color + f"{str(-int(self.monster_val[r][col])): >3}", end="")
                 else:
-                    print(Fore.LIGHTWHITE_EX + str(int(self.monster_val[r][col])), end="")
+                    print(Fore.LIGHTWHITE_EX + f"{str(int(self.monster_val[r][col])): >3}", end="")
                 print(Fore.WHITE, end="")
                 print(Back.BLACK, end="")
                 print("  ", end="")
@@ -311,8 +312,10 @@ class MamonoSweeper:
     def input(self, inp):
         user_input = inp.split()
 
-        r = ord(user_input[0]) - 65
-        c = ord(user_input[1]) - 65
+        #r = ord(user_input[0]) - 65
+        #c = ord(user_input[1]) - 65
+        r = int(user_input[0])
+        c = int(user_input[1])
 
         # If landing in a spot without a monster
         #if self.numbers[r][c] == 0:
