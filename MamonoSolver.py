@@ -64,13 +64,13 @@ class MamonoSolver:
         print("===========================================================================")
 
         self.mamonoSolverBoard.print_board()
-    """
+    
         print("\n===========================================================================")
         print("============================== SolutionBoard ==============================")
         print("===========================================================================")
 
         self.mamonoGame.print_solution()
-    """
+    
     def isNeighborsCleared(self, r, c):
         for n in self.mamonoGame.neighbors(r, c):
             if self.mamonoGame.monster_val[n[0]][n[1]] == ' ':

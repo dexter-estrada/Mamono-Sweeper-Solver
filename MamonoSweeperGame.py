@@ -111,11 +111,13 @@ class MamonoSweeper:
     def print_solution(self):
         print(Back.BLACK)
         print(Fore.WHITE)
-        print("\t\t\tMamono Sweeper")
+        print(f"{'Mamono Sweeper' : ^100}")
+        print(f"{'LV:' : >1}{self.lvl : <5}{'HP:' : >1}{self.hp : <5}{'EX:' : >1}{self.exp : <5}{'NE:' : >1}{self.next_lvl[self.lvl-1] : <5}")
 
-        st = "   "
+        st = "      "
         for i in range(self.row_size):
-            st = st + "     " + str(chr(i + 65))
+            #st = st + "     " + str(chr(i + 65))
+            st = st + f"{str(i): ^6}"
         print(st)   
     
         for r in range(self.col_size):
@@ -130,11 +132,13 @@ class MamonoSweeper:
                 st = st + "|     "
             print(st + "|")
 
-            st = "  " + str(chr(r + 65)) + "  "
-            print(st, end="")
+            #st = "  " + str(chr(r + 65)) + "  "
+            print(f"{r: ^5}", end="")
             for col in range(self.col_size):
-                print("|  ", end="")
-                if self.numbers[r][col] < 0:  # if it is a monster, color it red
+                print("|", end="")
+                if self.numbers[r][col] == 0:
+                    print(f"{'/': >3}", end="")
+                elif self.numbers[r][col] < 0:  # if it is a monster, color it red
                     if self.numbers[r][col] == -1:
                         color = Fore.CYAN
                     elif self.numbers[r][col] == -2:
@@ -148,11 +152,9 @@ class MamonoSweeper:
                     else:
                         print("ERROR: INCORRECT ENEMY NUMBER")
                         color = Fore.RED
-                    print(color + str(-self.numbers[r][col]), end="")
-                elif self.numbers[r][col] == 0:
-                    print(" ", end="")
+                    print(color + f"{str(-int(self.numbers[r][col])): >3}", end="")
                 else:
-                    print(Fore.LIGHTWHITE_EX + str(self.numbers[r][col]), end="")
+                    print(Fore.LIGHTWHITE_EX + f"{str(int(self.numbers[r][col])): >3}", end="")
                 print(Fore.WHITE, end="")
                 print(Back.BLACK, end="")
                 print("  ", end="")
@@ -162,6 +164,8 @@ class MamonoSweeper:
             for col in range(self.col_size):
                 st = st + "|_____"
             print(st + '|')
+        print()
+        print(f"{'LV1:x' : <1}{self.monster_num_alive[0] : <5}{'LV2:x' : <1}{self.monster_num_alive[1] : <5}{'LV3:x' : <1}{self.monster_num_alive[2] : <5}{'LV4:x' : <1}{self.monster_num_alive[3] : <5}{'LV5:x' : <1}{self.monster_num_alive[4] : <5}")
         print()
 
     # Places the monsters on the field
