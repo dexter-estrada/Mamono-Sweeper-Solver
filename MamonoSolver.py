@@ -22,13 +22,19 @@ class MamonoSolver:
                 for c in range(self.mamonoGame.col_size):
                     if self.mamonoGame.monster_val[r][c] == ' ':
                         continue
-                    elif self.mamonoGame.lvl == int(self.mamonoGame.monster_val[r][c]) and not self.isNeighborsCleared(r, c):  # clears neighbors of values that are equal to level
+                    elif self.mamonoGame.lvl == int(self.mamonoSolverBoard.monster_val[r][c]) and not self.isNeighborsCleared(r, c):  # clears neighbors of values that are equal to level
                         for n in self.mamonoGame.neighbors(r, c):
                             self.mamonoGame.input(str(n[0]) + " " + str(n[1]))
                             self.mamonoSolverBoard.input(str(n[0]) + " " + str(n[1]))
                         break
-                    elif int(self.mamonoSolverBoard.monster_val[r][c]) < 0:  # if solver board has negative values, update neighbors
-                        pass
+                    elif int(self.mamonoSolverBoard.monster_val[r][c]) < 0:  # if solver board has negative values, update solver neighbors
+                        self.mamonoSolverBoard.monster_val[r][c] = 0
+
+                        for n in self.mamonoGame.neighbors(r, c):
+                            if self.mamonoSolverBoard.monster_val[n[0]][n[1]] != ' ' and self.mamonoSolverBoard.monster_val[n[0]][n[1]]-1 > 0:
+                                self.mamonoSolverBoard.monster_val[n[0]][n[1]] -= 1
+
+
             if counter == 30:  # temporarily run loop 30 times
                 loop = False
 
