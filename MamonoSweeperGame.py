@@ -292,13 +292,17 @@ class MamonoSweeper:
 
         if self.hp < 1:             # Player dies and game over
             self.is_playing = False
-            #print("You died")
+            print("You died")
             self.player_won = False
         else:                       # Player lives and gains xp. xp gain calculation: 2^(mon's level)
+            print("You gained ", 2**( -(self.numbers[row][col] + 1)), " XP")
             self.exp += 2**( -(self.numbers[row][col] + 1))
-            while self.exp >= self.next_lvl[self.lvl - 1]:  # while exp is less than the level gain threshold
-                # Level up
+            if self.exp >= self.next_lvl[self.lvl - 1]:
+                print("Level Up!")
                 self.lvl += 1
+            #while self.exp >= self.next_lvl[self.lvl - 1]:  # while exp is less than the level gain threshold
+                # Level up
+                #self.lvl += 1
             # Subtracting 1 from monster_num_alive to track remaining monsters
             self.monster_num_alive[(-self.numbers[row][col]) - 1] -= 1
 
