@@ -309,12 +309,13 @@ class MamonoSweeper:
 
     # Function to modify flags on a square. 
     def modify_flag(self, row, col, flag_level):
-        if flag_level > 0:                      # Placing a flag
-            self.flags[(row, col)] = flag_level
-            self.monster_val[row][col] = 'F' + str(flag_level)
-        else:                                   # Removing a flag
-            self.flags.pop((row, col))
-            self.monster_val[row][col] = ' '
+        if [row, col] not in self.visible:
+            if flag_level > 0:                      # Placing a flag
+                self.flags[(row, col)] = flag_level
+                self.monster_val[row][col] = 'F' + str(flag_level)
+            else:                                   # Removing a flag
+                self.flags.pop((row, col))
+                self.monster_val[row][col] = ' '
 
     # Function to display the instructions
     def instructions(self):
