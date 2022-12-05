@@ -21,7 +21,7 @@ class MamonoSweeper:
         # Experience Points
         self.exp = 0
         # Level up
-        self.next_lvl = [7, 20, 50, 82, 0]
+        self.next_lvl = [7, 20, 50, 82, 999]
         # Monster Experience Gain
         self.exp_gain = [1, 2, 4, 8, 16]
         # Damage taken
@@ -297,12 +297,9 @@ class MamonoSweeper:
         else:                       # Player lives and gains xp. xp gain calculation: 2^(mon's level)
             print("You gained ", 2**( -(self.numbers[row][col] + 1)), " XP")
             self.exp += 2**( -(self.numbers[row][col] + 1))
-            if self.exp >= self.next_lvl[self.lvl - 1]:
+            while self.exp >= self.next_lvl[self.lvl - 1]:  # while exp is less than the level gain threshold
                 print("Level Up!")
                 self.lvl += 1
-            #while self.exp >= self.next_lvl[self.lvl - 1]:  # while exp is less than the level gain threshold
-                # Level up
-                #self.lvl += 1
             # Subtracting 1 from monster_num_alive to track remaining monsters
             self.monster_num_alive[(-self.numbers[row][col]) - 1] -= 1
 
