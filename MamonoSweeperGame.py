@@ -314,7 +314,9 @@ class MamonoSweeper:
                 self.flags[(row, col)] = flag_level
                 self.monster_val[row][col] = 'F' + str(flag_level)
             else:                                   # Removing a flag
-                self.flags.pop((row, col))
+                #self.flags.pop((row, col))
+                if (row, col) in self.flags:
+                    del self.flags[(row, col)]
                 self.monster_val[row][col] = ' '
 
     # Function to display the instructions
@@ -325,13 +327,15 @@ class MamonoSweeper:
 
     # Checks if all elements of monster_num is 0
     def check_win(self):
-        flag = False
+        #flag = False
+        wipe_count = 0
         for x in self.monster_num_alive:
             if x == 0:
-                flag = True
-                self.is_playing = not flag
-                continue
-        self.player_won = flag
+                #flag = True
+                wipe_count += 1
+        if wipe_count == len(self.monster_num_alive):   # Finished game state
+            self.player_won = True
+            self.is_playing = False
         #if len(self.visible) ==
 
     # Processes user input. Expects a string of 2 or 3 arguments
