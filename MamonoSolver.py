@@ -25,25 +25,27 @@ class MamonoSolver:
                     game_value = self.mamonoGame.monster_val[r][c]
                     solver_value = self.mamonoSolverBoard[r][c]
 
-                    if not self.isNum(game_value) or not self.isNum(solver_value):
-                        continue
-
-                    elif solver_value == 0 and not self.isNeighborsCleared(r, c):
+                    if "F" in str(solver_value):
+                        if self.mamonoGame.lvl >= int(solver_value[1]):
+                            self.solverInput(r, c)
+                    if solver_value == 0 and not self.isNeighborsCleared(r, c):
                         self.clearNeighbors(r, c)
+                    elif not self.isNum(game_value) or not self.isNum(solver_value):
+                        continue
                     elif self.mamonoGame.lvl >= int(solver_value) > 0 and not self.isNeighborsCleared(r, c):  # clears neighbors of values that are greater to level
                         for n in self.mamonoGame.neighbors(r, c):
                             self.solverInput(n[0], n[1])
-                    elif solver_value < 0 and (r, c) not in self.subtractedMonsters.keys():  # if solver board has negative values, update solver neighbors
+                    elif int(solver_value) < 0 and (r, c) not in self.subtractedMonsters.keys():  # if solver board has negative values, update solver neighbors
                         self.subtractedMonsters[(r, c)] = solver_value
-                        for n in self.mamonoGame.neighbors(r, c):  # make neighbors subtract by solver value
-                            if self.isNum(self.mamonoSolverBoard[n[0]][n[1]]) and self.mamonoSolverBoard[n[0]][n[1]] > 0:
-                                if int(self.mamonoSolverBoard[n[0]][n[1]]) + int(solver_value) > 0:
-                                    # print(self.mamonoSolverBoard[n[0]][n[1]])
-                                    self.mamonoSolverBoard[n[0]][n[1]] += int(solver_value)
-                                else:
-                                    self.mamonoSolverBoard[n[0]][n[1]] = 0
+                        self.monsterSubtraction(r, c)
 
-            if counter == 30:  # temporarily run loop 30 times
+                    elif int(solver_value) > 0 and (self.mamonoSolverBoard[n[0]][n[1]].count(' ') == 1 for n in self.mamonoGame.neighbors(r, c)):  # corner value, must flag
+                        for n in self.mamonoGame.neighbors(r, c):
+                            if self.mamonoSolverBoard[n[0]][n[1]] == ' ':
+                                self.mamonoSolverBoard[n[0]][n[1]] = 'F' + str(solver_value)
+                                self.monsterSubtraction(n[0], n[1])
+
+            if counter == 200:  # temporarily run loop 30 times
                 print(self.subtractedMonsters)
                 loop = False
 
@@ -57,6 +59,20 @@ class MamonoSolver:
             return False
 
         return True
+
+    def monsterSubtraction(self, r, c):
+        if "F" in str(self.mamonoSolverBoard[r][c]):
+            monster = -1 * int(self.mamonoSolverBoard[r][c][1])
+        else:
+            monster = self.mamonoSolverBoard[r][c]
+
+        for n in self.mamonoGame.neighbors(r, c):  # make neighbors subtract by solver value
+            if self.isNum(self.mamonoSolverBoard[n[0]][n[1]]) and int(self.mamonoSolverBoard[n[0]][n[1]]) > 0:
+                if int(self.mamonoSolverBoard[n[0]][n[1]]) + int(monster) > 0:
+                    # print(self.mamonoSolverBoard[n[0]][n[1]])
+                    self.mamonoSolverBoard[n[0]][n[1]] += int(monster)
+                else:
+                    self.mamonoSolverBoard[n[0]][n[1]] = 0
 
     def printBoards(self):
         #  print solver board
@@ -82,18 +98,18 @@ class MamonoSolver:
         """
     def isNeighborsCleared(self, r, c):
         for n in self.mamonoGame.neighbors(r, c):
-            if self.mamonoSolverBoard[n[0]][n[1]] == ' ':
+            if self.mamonoSolverBoard[n[0]][n[1]] == ' ' or "F" in str(self.mamonoSolverBoard[n[0]][n[1]]):
                 return False
 
         return True
 
     def clearNeighbors(self, r, c):
         for n in self.mamonoGame.neighbors(r, c):
-            if self.mamonoSolverBoard[n[0]][n[1]] == ' ':
+            if self.mamonoSolverBoard[n[0]][n[1]] == ' ' or "F" in str(self.mamonoSolverBoard[n[0]][n[1]]):
                 self.solverInput(n[0], n[1])
 
     def solverInput(self, r, c, f=-1):  # calls input from game on solver and regular board, checks for flagged monsters
-        if self.mamonoSolverBoard[r][c] != ' ':
+        if self.mamonoSolverBoard[r][c] != ' ' or "F" not in str(self.mamonoSolverBoard[r][c]):
             return None
         input_string = str(r) + " " + str(c)
         if f > 0:
