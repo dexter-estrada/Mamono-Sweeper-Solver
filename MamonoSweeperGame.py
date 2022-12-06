@@ -252,22 +252,24 @@ class MamonoSweeper:
                 # Check if flag prevents user from clicking
                 if (row, col) in self.flags:
                     if self.lvl >= self.flags[(row, col)]:
+                        # Remove flag from flags
+                        #self.flags.pop((row, col))
+                        self.modify_flag(row, col, 0)
                         # Mark tile as visited
                         self.visible.append([row, col])
                         # Do battle calculation
                         self.battle_calculation(row, col)
                         self.check_win()
-                        # Remove flag from flags
-                        #self.flags.pop((row, col))
-                        self.modify_flag(row, col, 0)
+                        # Display it to the user
+                        self.monster_val[row][col] = self.numbers[row][col]
                 else:                               # No flag found
                     # Mark tile as visited
                     self.visible.append([row, col])
                     # Do battle calculation
                     self.battle_calculation(row, col)
                     self.check_win()
-                # Display it to the user
-                self.monster_val[row][col] = self.numbers[row][col]
+                    # Display it to the user
+                    self.monster_val[row][col] = self.numbers[row][col]
 
     # Returns the neighbors of a given [r, c] as a list of [r, c]
     def neighbors(self, r, c):
