@@ -296,7 +296,7 @@ class MamonoSweeper:
 
         if self.hp < 1:             # Player dies and game over
             self.is_playing = False
-            print("You died")
+            #print("You died")
             self.player_won = False
         else:                       # Player lives and gains xp. xp gain calculation: 2^(mon's level)
             print("You gained ", 2**( -(self.numbers[row][col] + 1)), " XP")
@@ -325,10 +325,11 @@ class MamonoSweeper:
 
     # Checks if all elements of monster_num is 0
     def check_win(self):
-        flag = True
+        flag = False
         for x in self.monster_num_alive:
-            if x > 0:
-                flag = False
+            if x == 0:
+                flag = True
+                self.is_playing = not flag
                 continue
         self.player_won = flag
         #if len(self.visible) ==
@@ -517,3 +518,4 @@ if __name__ == "__main__":
         print("You Win!")
     else:
         print("You Died!")
+    game.print_solution()
