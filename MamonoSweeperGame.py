@@ -220,10 +220,9 @@ class MamonoSweeper:
     # Recursively uncovers all adjacent 0s on the board
     def clear_zeros(self, row, col):
         if [row, col] not in self.visible:
-            # Mark tile as visited
-            self.visible.append([row, col])
-
             if self.numbers[row][col] == 0:     # If tile is 0
+                # Mark tile as visited
+                self.visible.append([row, col])
                 # Display it to the user
                 self.monster_val[row][col] = self.numbers[row][col]
 
@@ -245,26 +244,30 @@ class MamonoSweeper:
                 if row < self.row_size-1 and col < self.col_size-1:
                     self.clear_zeros(row+1, col+1)  
             elif self.numbers[row][col] > 0:    # If tile is a hint
+                # Mark tile as visited
+                self.visible.append([row, col])
                 # Display it to the user
                 self.monster_val[row][col] = self.numbers[row][col]
             elif self.numbers[row][col] < 0:    # If tile contains a monster
                 # Check if flag prevents user from clicking
                 if (row, col) in self.flags:
                     if self.lvl >= self.flags[(row, col)]:
+                        # Mark tile as visited
+                        self.visible.append([row, col])
                         # Do battle calculation
                         self.battle_calculation(row, col)
                         self.check_win()
-                        # Display it to the user
-                        self.monster_val[row][col] = self.numbers[row][col]
                         # Remove flag from flags
-                        self.flags.pop((row, col))
+                        #self.flags.pop((row, col))
+                        self.modify_flag(row, col, 0)
                 else:                               # No flag found
+                    # Mark tile as visited
+                    self.visible.append([row, col])
                     # Do battle calculation
                     self.battle_calculation(row, col)
                     self.check_win()
-                    # Display it to the user
-                    self.monster_val[row][col] = self.numbers[row][col]
-
+                # Display it to the user
+                self.monster_val[row][col] = self.numbers[row][col]
 
     # Returns the neighbors of a given [r, c] as a list of [r, c]
     def neighbors(self, r, c):
