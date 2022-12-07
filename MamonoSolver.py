@@ -28,6 +28,8 @@ class MamonoSolver:
                     if "F" in str(solver_value):
                         if self.mamonoGame.lvl >= int(solver_value[1]):
                             self.solverInput(r, c)
+                            solver_value = self.mamonoSolverBoard[r][c]
+
                     if solver_value == 0 and not self.isNeighborsCleared(r, c):
                         self.clearNeighbors(r, c)
                     elif not self.isNum(game_value) or not self.isNum(solver_value):
@@ -39,7 +41,7 @@ class MamonoSolver:
                         self.subtractedMonsters[(r, c)] = solver_value
                         self.monsterSubtraction(r, c)
 
-                    elif int(solver_value) > 0 and (self.mamonoSolverBoard[n[0]][n[1]].count(' ') == 1 for n in self.mamonoGame.neighbors(r, c)):  # corner value, must flag
+                    elif int(solver_value) > 0 and self.isCorner(r, c):  # corner value, must flag
                         for n in self.mamonoGame.neighbors(r, c):
                             if self.mamonoSolverBoard[n[0]][n[1]] == ' ':
                                 self.mamonoSolverBoard[n[0]][n[1]] = 'F' + str(solver_value)
@@ -50,6 +52,18 @@ class MamonoSolver:
                 loop = False
 
         print("counter: " + str(counter))
+
+    def isCorner(self, r, c):
+        count_blanks = 0
+        is_corner = True
+        for n in self.mamonoGame.neighbors(r, c):
+            if count_blanks > 1:
+                is_corner = False
+                break
+            if self.mamonoSolverBoard[n[0]][n[1]] == ' ':
+                count_blanks += 1
+
+        return is_corner
 
     # checks if given value is a number (includes negatives), only checks ' ' and 'f'
     def isNum(self, num):
