@@ -1,7 +1,7 @@
 from MamonoSweeperGame import MamonoSweeper
 import random
 
-class MamonoSolver2:
+class MamonoSolverRand:
     def __init__(self, mamonoGame):
         self.mamonoGame = mamonoGame
         self.solve()
