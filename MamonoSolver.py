@@ -29,8 +29,8 @@ class MamonoSolver:
                         counter = 1000
                         return None
                     if "F" in str(solver_value):
+                        print("flagVAL" + str(solver_value[1]))
                         if self.mamonoGame.lvl >= int(solver_value[1]):
-                            print(solver_value[1])
                             self.solverInput(r, c)
                             solver_value = self.mamonoSolverBoard[r][c]
 
@@ -130,13 +130,15 @@ class MamonoSolver:
 
     def clearNeighbors(self, r, c):
         for n in self.mamonoGame.neighbors(r, c):
-            if self.mamonoSolverBoard[n[0]][n[1]] == ' ' or ("F" in str(self.mamonoSolverBoard[n[0]][n[1]])):
+            if self.mamonoSolverBoard[n[0]][n[1]] == ' ':
                 self.solverInput(n[0], n[1])
 
     def solverInput(self, r, c):  # calls input from game on solver and regular board, checks for flagged monsters
         input_string = str(r) + " " + str(c)
 
         if self.mamonoSolverBoard[r][c] != ' ' and ("F" not in str(self.mamonoSolverBoard[r][c])):
+            return None
+        if ("F" in str(self.mamonoSolverBoard[r][c])) and (int(self.mamonoSolverBoard[r][c][1]) > self.mamonoGame.lvl):
             return None
         self.mamonoGame.input(input_string)
         self.mamonoSolverBoard[r][c] = self.mamonoGame.monster_val[r][c]  # line not fixed for flag input
