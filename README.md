@@ -7,6 +7,8 @@ http://www.hojamaka.com/game/mamosui_list.html
 
 https://www.askpython.com/python/examples/create-minesweeper-using-python
 
+https://youtu.be/uvRQUWxOHqo
+
 
 Requirements:
 Colorama: Makes ANSI escape character sequences (for producing colored terminal text and cursor positioning) work under MS Windows.
