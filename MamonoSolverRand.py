@@ -7,13 +7,12 @@ class MamonoSolver2:
         self.solve()
 
     def solve(self):
-        # Generating random
-        row = random.randint(0, self.mamonoGame.row_size-1)
-        col = random.randint(0, self.mamonoGame.col_size-1)
-
-        self.mamonoGame.input(str(row) + " " + str(col))
-
-        #while self.mamonoGame.is_playing == True:
+        while self.mamonoGame.is_playing == True:
+            self.clickRandom()
+        if self.mamonoGame.player_won:
+            print("You Win!")
+        else:
+            print("You Died!")
 
     def printBoards(self):
         #  print solver board
@@ -28,4 +27,12 @@ class MamonoSolver2:
         print("===========================================================================")
 
         self.mamonoGame.print_solution()
+
+    def clickRandom(self):
+        # Generating random
+        row = random.randint(0, self.mamonoGame.row_size-1)
+        col = random.randint(0, self.mamonoGame.col_size-1)
+
+        # First move
+        self.mamonoGame.input(str(row) + " " + str(col))
         
