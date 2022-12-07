@@ -314,22 +314,22 @@ class MamonoSweeper:
     def battle_calculation(self, row, col):
         mon_level = -self.numbers[row][col]
         level_difference = mon_level - self.lvl
-        print("Player level: ", self.lvl, " Monster level: ", mon_level)
+        #print("Player level: ", self.lvl, " Monster level: ", mon_level)
         dmg = 0
         if level_difference > 0:
             dmg = mon_level * level_difference      # Damage to player calculation: dmg = mon_level * level_difference
             self.hp -= dmg
-        print("damage taken: ", dmg)
+       # print("damage taken: ", dmg)
 
         if self.hp < 1:             # Player dies and game over
             self.is_playing = False
             #print("You died")
             self.player_won = False
         else:                       # Player lives and gains xp. xp gain calculation: 2^(mon's level)
-            print("You gained ", 2**( -(self.numbers[row][col] + 1)), " XP")
+            #print("You gained ", 2**( -(self.numbers[row][col] + 1)), " XP")
             self.exp += 2**( -(self.numbers[row][col] + 1))
             while self.exp >= self.next_lvl[self.lvl - 1]:  # while exp is less than the level gain threshold
-                print("Level Up!")
+                #print("Level Up!")
                 self.lvl += 1
             # Subtracting 1 from monster_num_alive to track remaining monsters
             self.monster_num_alive[(-self.numbers[row][col]) - 1] -= 1
