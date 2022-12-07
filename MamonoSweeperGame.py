@@ -217,32 +217,16 @@ class MamonoSweeper:
                 if row < self.row_size-1 and col < self.col_size-1 and self.numbers[row+1][col+1] < 0:
                     self.numbers[row][col] = self.numbers[row][col] - self.numbers[row+1][col+1]
 
-    # Recursively uncovers all adjacent 0s on the board
-    def clear_zeros(self, row, col):
+    # Checks the chosen cell
+    def check_cell(self, row, col):
         if [row, col] not in self.visible:
             if self.numbers[row][col] == 0:     # If tile is 0
                 # Mark tile as visited
                 self.visible.append([row, col])
                 # Display it to the user
                 self.monster_val[row][col] = self.numbers[row][col]
-
-                # Recursively calls neighboring tiles
-                if row > 0:
-                    self.clear_zeros(row-1, col)
-                if row < self.row_size-1:
-                    self.clear_zeros(row+1, col)
-                if col > 0:
-                    self.clear_zeros(row, col-1)
-                if col < self.col_size-1:
-                    self.clear_zeros(row, col+1)    
-                if row > 0 and col > 0:
-                    self.clear_zeros(row-1, col-1)
-                if row > 0 and col < self.col_size-1:
-                    self.clear_zeros(row-1, col+1)
-                if row < self.row_size-1 and col > 0:
-                    self.clear_zeros(row+1, col-1)
-                if row < self.row_size-1 and col < self.col_size-1:
-                    self.clear_zeros(row+1, col+1)  
+                # Recursivly clear neighbors
+                self.clear_neighbors(row, col)
             elif self.numbers[row][col] > 0:    # If tile is a hint
                 # Mark tile as visited
                 self.visible.append([row, col])
@@ -262,6 +246,15 @@ class MamonoSweeper:
                         self.check_win()
                         # Display it to the user
                         self.monster_val[row][col] = self.numbers[row][col]
+                        # Checking if no monsters nearby to clear nearby cells
+                        near_monster = False
+                        near_cells = self.neighbors(row, col)
+                        for n in near_cells:
+                            if self.numbers[n[0]][n[1]] < 0 and not near_monster:
+                                near_monster = True
+                        if not near_monster:
+                            # Recursivly clear neighbors
+                            self.clear_neighbors(row, col)
                 else:                               # No flag found
                     # Mark tile as visited
                     self.visible.append([row, col])
@@ -270,6 +263,35 @@ class MamonoSweeper:
                     self.check_win()
                     # Display it to the user
                     self.monster_val[row][col] = self.numbers[row][col]
+                    # Checking if no monsters nearby to clear nearby cells
+                    near_monster = False
+                    near_cells = self.neighbors(row, col)
+                    for n in near_cells:
+                        if self.numbers[n[0]][n[1]] < 0 and not near_monster:
+                            near_monster = True
+                    if not near_monster:
+                        # Recursivly clear neighbors
+                        self.clear_neighbors(row, col)
+
+    # Recursivly clears up neighbors only when their values are zero and positive
+    def clear_neighbors(self, row, col):
+        # Recursively calls neighboring tiles
+        if row > 0 and self.numbers[row-1][col] >= 0:
+            self.check_cell(row-1, col)
+        if row < self.row_size-1 and self.numbers[row+1][col] >= 0:
+            self.check_cell(row+1, col)
+        if col > 0 and self.numbers[row][col-1] >= 0:
+            self.check_cell(row, col-1)
+        if col < self.col_size-1 and self.numbers[row][col+1] >= 0:
+            self.check_cell(row, col+1)    
+        if row > 0 and col > 0 and self.numbers[row-1][col-1] >= 0:
+            self.check_cell(row-1, col-1)
+        if row > 0 and col < self.col_size-1 and self.numbers[row-1][col+1] >= 0:
+            self.check_cell(row-1, col+1)
+        if row < self.row_size-1 and col > 0 and self.numbers[row+1][col-1] >= 0:
+            self.check_cell(row+1, col-1)
+        if row < self.row_size-1 and col < self.col_size-1 and self.numbers[row+1][col+1] >= 0:
+            self.check_cell(row+1, col+1)  
 
     # Returns the neighbors of a given [r, c] as a list of [r, c]
     def neighbors(self, r, c):
@@ -353,7 +375,7 @@ class MamonoSweeper:
         if len(user_input) == 2:    # User clears a square
             r = int(user_input[0])
             c = int(user_input[1])
-            self.clear_zeros(r, c)
+            self.check_cell(r, c)
 
         elif len(user_input) == 3:  # User flags a square
             r = int(user_input[0])
