@@ -61,6 +61,9 @@ class MamonoSolver:
         else:
             return False
 
+    def checkWin(self):
+        return self.mamonoGame.player_won
+
     def isCorner(self, r, c):
         count_blanks = 0
         for n in self.mamonoGame.neighbors(r, c):
