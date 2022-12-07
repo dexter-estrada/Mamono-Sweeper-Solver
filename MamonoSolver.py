@@ -20,13 +20,17 @@ class MamonoSolver:
         counter = 0
         while loop:
             counter += 1
+
             for r in range(self.mamonoGame.row_size):
                 for c in range(self.mamonoGame.col_size):
                     game_value = self.mamonoGame.monster_val[r][c]
                     solver_value = self.mamonoSolverBoard[r][c]
-
+                    if self.isSolverDead():
+                        counter = 1000
+                        return None
                     if "F" in str(solver_value):
                         if self.mamonoGame.lvl >= int(solver_value[1]):
+                            print(solver_value[1])
                             self.solverInput(r, c)
                             solver_value = self.mamonoSolverBoard[r][c]
 
@@ -47,11 +51,18 @@ class MamonoSolver:
                                 self.mamonoSolverBoard[n[0]][n[1]] = 'F' + str(solver_value)
                                 self.monsterSubtraction(n[0], n[1])
 
-            if counter == 200:  # temporarily run loop 30 times
+            if counter <= 200:  # temporarily run loop 30 times
                 print(self.subtractedMonsters)
                 loop = False
 
         print("counter: " + str(counter))
+
+    def isSolverDead(self):
+        if self.mamonoGame.hp <= 0:
+            print("Solver Died")
+            return True
+        else:
+            return False
 
     def isCorner(self, r, c):
         count_blanks = 0
@@ -124,11 +135,9 @@ class MamonoSolver:
 
     def solverInput(self, r, c):  # calls input from game on solver and regular board, checks for flagged monsters
         input_string = str(r) + " " + str(c)
-        print(input_string)
 
-        if self.mamonoSolverBoard[r][c] != ' ' or ("F" not in str(self.mamonoSolverBoard[r][c])):
+        if self.mamonoSolverBoard[r][c] != ' ' and ("F" not in str(self.mamonoSolverBoard[r][c])):
             return None
-
         self.mamonoGame.input(input_string)
         self.mamonoSolverBoard[r][c] = self.mamonoGame.monster_val[r][c]  # line not fixed for flag input
         # print(self.mamonoGame.monster_val[r][c])
