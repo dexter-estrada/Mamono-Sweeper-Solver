@@ -5,10 +5,10 @@ from MamonoSolver2 import MamonoSolver2
 
 def main():
     mamonoGameInstance = MamonoSweeper()
-    mamonoSolverInstance = MamonoSolver(mamonoGameInstance)
+    #mamonoSolverInstance = MamonoSolver(mamonoGameInstance)
     mamonoSolverInstance2 = MamonoSolver2(mamonoGameInstance)
 
-    mamonoSolverInstance.printBoards()
+    #mamonoSolverInstance.printBoards()
     mamonoSolverInstance2.printBoards()
 
 
