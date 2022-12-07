@@ -15,7 +15,7 @@ class MamonoSolver:
         if all(i == [' '] * self.mamonoGame.row_size for i in self.mamonoSolverBoard):  # if board is empty
             # start in top left corner [0,0]
             self.mamonoGame.input("0 0")
-            self.mamonoSolverBoard = self.mamonoGame.monster_val
+            self.mamonoSolverBoard = copy.deepcopy(self.mamonoGame.monster_val)
 
         counter = 0
         while loop:
@@ -109,10 +109,12 @@ class MamonoSolver:
                 self.solverInput(n[0], n[1])
 
     def solverInput(self, r, c):  # calls input from game on solver and regular board, checks for flagged monsters
-        if self.mamonoSolverBoard[r][c] != ' ' or ("F" not in str(self.mamonoSolverBoard[r][c])):
-            return None
         input_string = str(r) + " " + str(c)
         print(input_string)
+
+        if self.mamonoSolverBoard[r][c] != ' ' or ("F" not in str(self.mamonoSolverBoard[r][c])):
+            return None
+
         self.mamonoGame.input(input_string)
         self.mamonoSolverBoard[r][c] = self.mamonoGame.monster_val[r][c]  # line not fixed for flag input
         # print(self.mamonoGame.monster_val[r][c])
