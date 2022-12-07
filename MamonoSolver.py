@@ -98,33 +98,30 @@ class MamonoSolver:
         """
     def isNeighborsCleared(self, r, c):
         for n in self.mamonoGame.neighbors(r, c):
-            if self.mamonoSolverBoard[n[0]][n[1]] == ' ' or "F" in str(self.mamonoSolverBoard[n[0]][n[1]]):
+            if self.mamonoSolverBoard[n[0]][n[1]] == ' ' or ("F" in str(self.mamonoSolverBoard[n[0]][n[1]])):
                 return False
 
         return True
 
     def clearNeighbors(self, r, c):
         for n in self.mamonoGame.neighbors(r, c):
-            if self.mamonoSolverBoard[n[0]][n[1]] == ' ' or "F" in str(self.mamonoSolverBoard[n[0]][n[1]]):
+            if self.mamonoSolverBoard[n[0]][n[1]] == ' ' or ("F" in str(self.mamonoSolverBoard[n[0]][n[1]])):
                 self.solverInput(n[0], n[1])
 
-    def solverInput(self, r, c, f=-1):  # calls input from game on solver and regular board, checks for flagged monsters
+    def solverInput(self, r, c):  # calls input from game on solver and regular board, checks for flagged monsters
         if self.mamonoSolverBoard[r][c] != ' ' or ("F" not in str(self.mamonoSolverBoard[r][c])):
             return None
         input_string = str(r) + " " + str(c)
-        if f > 0:
-            input_string += " " + str(f)
-
+        print(input_string)
         self.mamonoGame.input(input_string)
         self.mamonoSolverBoard[r][c] = self.mamonoGame.monster_val[r][c]  # line not fixed for flag input
         # print(self.mamonoGame.monster_val[r][c])
         if int(self.mamonoSolverBoard[r][c]) < 0:
             return None
-        if f < 0:  # if no flag is inputted, check neighbors for flags
-            for n in self.mamonoGame.neighbors(r, c):
-                if self.isNum(self.mamonoSolverBoard[r][c]) and tuple(n) in self.subtractedMonsters.keys():
-                    # print("val: " + str(self.mamonoSolverBoard[n[0]][n[1]]))
-                    self.mamonoSolverBoard[r][c] += int(self.mamonoSolverBoard[n[0]][n[1]])
+        for n in self.mamonoGame.neighbors(r, c):
+            if self.isNum(self.mamonoSolverBoard[r][c]) and tuple(n) in self.subtractedMonsters.keys():
+                # print("val: " + str(self.mamonoSolverBoard[n[0]][n[1]]))
+                self.mamonoSolverBoard[r][c] += int(self.mamonoSolverBoard[n[0]][n[1]])
 
 
 
