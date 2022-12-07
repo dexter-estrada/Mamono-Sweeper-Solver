@@ -29,28 +29,29 @@ class MamonoSolver:
                     solver_value = self.mamonoSolverBoard[r][c]
                     if self.isSolverDead():
                         return -1
-                    if "F" in str(solver_value):
+                    if self.mamonoGame.lvl == 5:
+                        self.levelClear()
+                        break
+                    if "F" in str(solver_value):  # clears flag if level is greater than flag
                         if self.mamonoGame.lvl >= int(solver_value[1]):
                             self.solverInput(r, c)
                             solver_value = self.mamonoSolverBoard[r][c]
 
-                    if solver_value == 0:
+                    if solver_value == 0 and not self.isNeighborsCleared(r, c):  # clears 0s and neighbors of 0s on board
                         self.clearNeighbors(r, c)
                         if self.mamonoGame.monster_val[r][c] == ' ' or "F" in str(self.mamonoSolverBoard[r][c]):
                             self.solverInput(r, c)
 
-                    elif not self.isNum(game_value) or not self.isNum(solver_value):
+                    elif not self.isNum(game_value) or not self.isNum(solver_value):  # ignores ' ' and Flags
                         continue
 
-                    elif self.mamonoGame.lvl >= int(solver_value) > 0 and not self.isNeighborsCleared(r, c):  # clears neighbors of values that are greater to level
+                    elif self.mamonoGame.lvl >= int(solver_value) > 0 and not self.isNeighborsCleared(r, c):  # clears neighbors of values that are <= level
                         for n in self.mamonoGame.neighbors(r, c):
                             self.solverInput(n[0], n[1])
                         self.solver_stuck = False
-                        continue
 
                     elif int(solver_value) < 0 and (r, c) not in self.subtractedMonsters.keys():  # if solver board has negative values, update solver neighbors
                         self.monsterSubtraction(r, c)
-                        continue
 
                     elif int(solver_value) > 0 and self.isCorner(r, c):  # corner value, must flag
                         self.solver_stuck = False
@@ -58,31 +59,30 @@ class MamonoSolver:
                             if self.mamonoSolverBoard[n[0]][n[1]] == ' ':
                                 self.mamonoSolverBoard[n[0]][n[1]] = 'F' + str(solver_value)
                                 self.monsterSubtraction(n[0], n[1])
-                        continue
+
 
             if solver_stuck:
                 empty_space = []  # tuples of empty spaces
                 for r in range(self.mamonoGame.row_size):
                     for c in range(self.mamonoGame.col_size):
                         if self.mamonoSolverBoard[r][c] == ' ':
-                            empty_space.append((r, c))
+                            empty_space.append((r, c))  # appends where an empty space exists
                 if len(empty_space) == 0:
-                    for r in range(self.mamonoGame.row_size):
-                        for c in range(self.mamonoGame.col_size):
-                            if self.mamonoGame.monster_val[r][c] == ' ':
-                                empty_space.append((r, c))
-                if len(empty_space) == 0:
-                    # print("empty")
                     break
                 r = random.randrange(0, len(empty_space))
-                self.solverInput(empty_space[r][0], empty_space[r][1])
+                self.solverInput(empty_space[r][0], empty_space[r][1])  # choose a random empty space and input it
 
-            if counter == 100:  # temporarily run loop 30 times
+            if counter == 50:  # run loop 50 times
                 loop = False
+
+        if not self.checkWin() and self.mamonoGame.hp > 0:
+            for r in range(self.mamonoGame.row_size):
+                for c in range(self.mamonoGame.col_size):
+                    if self.mamonoGame.monster_val[r][c] == ' ':
+                        self.mamonoGame.input(str(r) + " " + str(c))
 
         self.level_died = self.mamonoGame.lvl
 
-            #print("Solver win")
         #  print("counter: " + str(counter))
 
     def isSolverDead(self):
@@ -91,6 +91,11 @@ class MamonoSolver:
             return True
         else:
             return False
+
+    def levelClear(self):
+        for r in range(self.mamonoGame.row_size):
+            for c in range(self.mamonoGame.col_size):
+                self.mamonoGame.input(str(r) + " " + str(c))
 
     def checkWin(self):
         return self.mamonoGame.player_won
@@ -141,9 +146,10 @@ class MamonoSolver:
         print("\n===========================================================================")
         print("=============================== SolverBoard ===============================")
         print("===========================================================================")
-
+        rcounter = 0
         for row in self.mamonoSolverBoard:
-            print(row)
+            print(str(rcounter) + str(row))
+            rcounter += 1
 
         """
         print("\n===========================================================================")

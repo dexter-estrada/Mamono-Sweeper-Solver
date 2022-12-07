@@ -10,9 +10,14 @@ class MamonoSolverRand:
         while self.mamonoGame.is_playing == True:
             self.clickRandom()
         if self.mamonoGame.player_won:
-            print("You Win!")
+            # print("You Win!")
+            pass
         else:
-            print("You Died!")
+            # print("You Died!")
+            pass
+
+    def checkWin(self):
+        return self.mamonoGame.player_won
 
     def printBoards(self):
         #  print solver board
